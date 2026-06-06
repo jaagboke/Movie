@@ -1,133 +1,184 @@
 {
   "631c79dd": {
-    "status": "converting",
-    "progress": 0,
+    "status": "done",
+    "progress": 17,
     "total": 17,
     "chapters": [
       {
         "number": 1,
         "title": "Data Management",
         "words": 11694,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch01_Data_Management.mp3"
       },
       {
         "number": 2,
         "title": "Data Handling Ethics",
         "words": 7701,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch02_Data_Handling_Ethics.mp3"
       },
       {
         "number": 3,
         "title": "Data Governance",
         "words": 11090,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch03_Data_Governance.mp3"
       },
       {
         "number": 4,
         "title": "Data Architecture",
         "words": 8632,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch04_Data_Architecture.mp3"
       },
       {
         "number": 5,
         "title": "Data Modeling and Design",
         "words": 15993,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch05_Data_Modeling_and_Design.mp3"
       },
       {
         "number": 6,
         "title": "Data Storage and Operations",
         "words": 17077,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch06_Data_Storage_and_Operations.mp3"
       },
       {
         "number": 7,
         "title": "Data Security",
         "words": 18916,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch07_Data_Security.mp3"
       },
       {
         "number": 8,
         "title": "Data Integration and Interoperability",
         "words": 12367,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch08_Data_Integration_and_Interoperability.mp3"
       },
       {
         "number": 9,
         "title": "Document and Content Management",
         "words": 15936,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch09_Document_and_Content_Management.mp3"
       },
       {
         "number": 10,
         "title": "Reference and Master Data",
         "words": 13612,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch10_Reference_and_Master_Data.mp3"
       },
       {
         "number": 11,
         "title": "Data Warehousing and Business Intelligence",
         "words": 14118,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch11_Data_Warehousing_and_Business_Intelligence.mp3"
       },
       {
         "number": 12,
         "title": "Metadata Management",
         "words": 11348,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch12_Metadata_Management.mp3"
       },
       {
         "number": 13,
         "title": "Data Quality",
         "words": 19827,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch13_Data_Quality.mp3"
       },
       {
         "number": 14,
         "title": "Big Data and Data Science",
         "words": 13558,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch14_Big_Data_and_Data_Science.mp3"
       },
       {
         "number": 15,
         "title": "Data Management Maturity Assessment",
         "words": 7064,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch15_Data_Management_Maturity_Assessment.mp3"
       },
       {
         "number": 16,
         "title": "Data Management Organization and Role",
         "words": 7459,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch16_Data_Management_Organization_and_Role.mp3"
       },
       {
         "number": 17,
         "title": "Data Management and Organizational",
         "words": 21191,
-        "done": false,
-        "file": ""
+        "done": true,
+        "file": "ch17_Data_Management_and_Organizational.mp3"
       }
     ],
     "error": null,
     "voice": "en-GB-SoniaNeural",
     "rate": "-10%",
     "filename": "book.pdf",
+    "chunk_progress": "",
+    "last_position": {
+      "chapter_idx": 0,
+      "time": 33
+    }
+  },
+  "850fce2d": {
+    "status": "error",
+    "progress": 0,
+    "total": 5,
+    "chapters": [
+      {
+        "number": 1,
+        "title": "The Keeper Who Stayed",
+        "words": 285,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 2,
+        "title": "The Letter",
+        "words": 284,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 3,
+        "title": "The Storm",
+        "words": 287,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 4,
+        "title": "What Remains",
+        "words": 250,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 5,
+        "title": "The Last Light",
+        "words": 314,
+        "done": false,
+        "file": ""
+      }
+    ],
+    "error": "Invalid rate '0%'.",
+    "voice": "en-GB-RyanNeural",
+    "rate": "0%",
+    "filename": "the_lighthouse_keeper.pdf",
     "chunk_progress": "",
     "last_position": {
       "chapter_idx": 0,
