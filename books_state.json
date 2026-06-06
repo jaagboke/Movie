@@ -1,0 +1,137 @@
+{
+  "631c79dd": {
+    "status": "converting",
+    "progress": 0,
+    "total": 17,
+    "chapters": [
+      {
+        "number": 1,
+        "title": "Data Management",
+        "words": 11694,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 2,
+        "title": "Data Handling Ethics",
+        "words": 7701,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 3,
+        "title": "Data Governance",
+        "words": 11090,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 4,
+        "title": "Data Architecture",
+        "words": 8632,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 5,
+        "title": "Data Modeling and Design",
+        "words": 15993,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 6,
+        "title": "Data Storage and Operations",
+        "words": 17077,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 7,
+        "title": "Data Security",
+        "words": 18916,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 8,
+        "title": "Data Integration and Interoperability",
+        "words": 12367,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 9,
+        "title": "Document and Content Management",
+        "words": 15936,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 10,
+        "title": "Reference and Master Data",
+        "words": 13612,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 11,
+        "title": "Data Warehousing and Business Intelligence",
+        "words": 14118,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 12,
+        "title": "Metadata Management",
+        "words": 11348,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 13,
+        "title": "Data Quality",
+        "words": 19827,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 14,
+        "title": "Big Data and Data Science",
+        "words": 13558,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 15,
+        "title": "Data Management Maturity Assessment",
+        "words": 7064,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 16,
+        "title": "Data Management Organization and Role",
+        "words": 7459,
+        "done": false,
+        "file": ""
+      },
+      {
+        "number": 17,
+        "title": "Data Management and Organizational",
+        "words": 21191,
+        "done": false,
+        "file": ""
+      }
+    ],
+    "error": null,
+    "voice": "en-GB-SoniaNeural",
+    "rate": "-10%",
+    "filename": "book.pdf",
+    "chunk_progress": "",
+    "last_position": {
+      "chapter_idx": 0,
+      "time": 0
+    }
+  }
+}

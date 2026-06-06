@@ -9,576 +9,248 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg:          #0f0e0c;
-    --bg2:         #1a1916;
-    --bg3:         #242320;
-    --border:      rgba(255,255,255,0.08);
-    --border2:     rgba(255,255,255,0.14);
-    --text:        #e8e4db;
-    --text2:       #9e9a91;
-    --text3:       #5e5a54;
-    --gold:        #c9a84c;
-    --gold2:       #e8c97a;
-    --gold-dim:    rgba(201,168,76,0.12);
-    --red:         #c0392b;
-    --radius:      12px;
-    --radius-sm:   8px;
+    --bg: #0f0e0c; --bg2: #1a1916; --bg3: #242320; --bg4: #2e2c28;
+    --border: rgba(255,255,255,0.08); --border2: rgba(255,255,255,0.14);
+    --text: #e8e4db; --text2: #9e9a91; --text3: #5e5a54;
+    --gold: #c9a84c; --gold2: #e8c97a; --gold-dim: rgba(201,168,76,0.12);
+    --radius: 12px; --radius-sm: 8px;
   }
+  html, body { height: 100%; background: var(--bg); color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; }
 
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  /* ── Layout ── */
   .app { display: flex; height: 100vh; overflow: hidden; }
 
   /* ── Sidebar ── */
-  .sidebar {
-    width: 300px;
-    min-width: 300px;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+  .sidebar { width: 300px; min-width: 300px; background: var(--bg2);
+    border-right: 1px solid var(--border); display: flex;
+    flex-direction: column; overflow: hidden; }
+  .sidebar-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); }
+  .logo { font-family: 'Lora', serif; font-size: 18px; color: var(--gold); }
+  .logo span { color: var(--text2); font-size: 12px; font-family: 'DM Sans', sans-serif;
+    display: block; font-weight: 300; margin-top: 2px; }
 
-  .sidebar-header {
-    padding: 28px 24px 20px;
-    border-bottom: 1px solid var(--border);
-  }
+  /* ── Book library tabs ── */
+  .sidebar-tabs { display: flex; border-bottom: 1px solid var(--border); }
+  .tab { flex: 1; padding: 10px; text-align: center; font-size: 12px;
+    color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent;
+    transition: color 0.15s; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
 
-  .logo {
-    font-family: 'Lora', serif;
-    font-size: 20px;
-    color: var(--gold);
-    letter-spacing: 0.02em;
-    margin-bottom: 4px;
-  }
-
-  .logo span { color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; display: block; font-weight: 300; margin-top: 2px; }
-
-  .chapter-list {
-    flex: 1;
-    overflow-y: auto;
-    padding: 12px 0;
-  }
-
+  /* ── Chapter list ── */
+  .chapter-list { flex: 1; overflow-y: auto; padding: 8px 0; }
   .chapter-list::-webkit-scrollbar { width: 4px; }
-  .chapter-list::-webkit-scrollbar-track { background: transparent; }
   .chapter-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
 
-  .chapter-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 24px;
-    cursor: pointer;
-    transition: background 0.15s;
-    border-left: 3px solid transparent;
-  }
-
+  .chapter-item { display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px; cursor: pointer; transition: background 0.15s;
+    border-left: 3px solid transparent; }
   .chapter-item:hover { background: var(--bg3); }
-
-  .chapter-item.active {
-    background: var(--gold-dim);
-    border-left-color: var(--gold);
-  }
-
+  .chapter-item.active { background: var(--gold-dim); border-left-color: var(--gold); }
   .chapter-item.active .ch-title { color: var(--gold2); }
-
-  .ch-num {
-    font-size: 11px;
-    color: var(--text3);
-    font-weight: 500;
-    min-width: 24px;
-    font-variant-numeric: tabular-nums;
-  }
-
+  .ch-num { font-size: 11px; color: var(--text3); min-width: 22px;
+    font-variant-numeric: tabular-nums; font-weight: 500; }
   .ch-info { flex: 1; min-width: 0; }
-
-  .ch-title {
-    font-size: 13px;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 400;
-  }
-
-  .ch-meta {
-    font-size: 11px;
-    color: var(--text3);
-    margin-top: 1px;
-  }
-
-  .ch-status {
-    font-size: 16px;
-    min-width: 18px;
-    text-align: center;
-  }
-
+  .ch-title { font-size: 13px; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; }
+  .ch-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .ch-status { font-size: 15px; min-width: 16px; text-align: center; }
   .ch-status.done { color: var(--gold); }
   .ch-status.converting { color: var(--text3); animation: pulse 1.2s ease-in-out infinite; }
   .ch-status.pending { color: var(--text3); }
+  @keyframes pulse { 0%,100% { opacity:0.3; } 50% { opacity:1; } }
 
-  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  /* ── Book library panel ── */
+  .book-library { flex: 1; overflow-y: auto; padding: 8px 0; display: none; }
+  .book-library.active { display: block; }
+
+  .book-item { padding: 12px 20px; cursor: pointer; border-left: 3px solid transparent;
+    transition: background 0.15s; }
+  .book-item:hover { background: var(--bg3); }
+  .book-item.current { border-left-color: var(--gold); background: var(--gold-dim); }
+  .book-name { font-size: 13px; color: var(--text); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+  .book-meta { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .book-status-badge { display: inline-block; font-size: 10px; padding: 1px 6px;
+    border-radius: 4px; margin-top: 4px; font-weight: 500; }
+  .badge-done { background: rgba(201,168,76,0.15); color: var(--gold); }
+  .badge-converting { background: rgba(94,90,84,0.3); color: var(--text2); }
+  .badge-error { background: rgba(192,57,43,0.2); color: #e57b6e; }
+
+  .sidebar-bottom { padding: 12px 20px; border-top: 1px solid var(--border); }
+  .sidebar-progress-bar-wrap { background: var(--bg3); border-radius: 100px;
+    height: 3px; margin-top: 6px; overflow: hidden; }
+  .sidebar-progress-bar { height: 100%; background: var(--gold); border-radius: 100px;
+    transition: width 0.5s ease; }
+  .sidebar-bottom-text { font-size: 12px; color: var(--text2); }
 
   /* ── Main ── */
-  .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* ── Upload screen ── */
-  .upload-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-
-  .upload-box {
-    width: 100%;
-    max-width: 480px;
-    background: var(--bg2);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius);
-    padding: 40px;
-    text-align: center;
-  }
-
-  .upload-icon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    opacity: 0.6;
-  }
-
-  .upload-title {
-    font-family: 'Lora', serif;
-    font-size: 22px;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-
-  .upload-sub {
-    font-size: 13px;
-    color: var(--text2);
-    margin-bottom: 28px;
-  }
-
-  .drop-zone {
-    border: 1.5px dashed var(--border2);
-    border-radius: var(--radius-sm);
-    padding: 32px;
-    margin-bottom: 24px;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-  }
-
-  .drop-zone:hover, .drop-zone.drag-over {
-    border-color: var(--gold);
-    background: var(--gold-dim);
-  }
-
-  .drop-zone input[type="file"] { display: none; }
-
-  .drop-label {
-    font-size: 14px;
-    color: var(--text2);
-    margin-bottom: 6px;
-  }
-
-  .drop-label strong { color: var(--gold); cursor: pointer; }
-
-  .drop-types {
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .settings-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-    text-align: left;
-  }
-
-  .setting-group label {
-    display: block;
-    font-size: 12px;
-    color: var(--text2);
-    margin-bottom: 6px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .setting-group select {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    border-radius: var(--radius-sm);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    padding: 9px 12px;
-    appearance: none;
-    cursor: pointer;
-    outline: none;
-  }
-
-  .setting-group select:focus { border-color: var(--gold); }
-
-  .btn-convert {
-    width: 100%;
-    background: var(--gold);
-    color: #0f0e0c;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 13px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .btn-convert:hover { background: var(--gold2); }
-  .btn-convert:active { transform: scale(0.98); }
-  .btn-convert:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  /* ── Progress screen ── */
-  .progress-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    gap: 24px;
-  }
-
-  .progress-title {
-    font-family: 'Lora', serif;
-    font-size: 20px;
-    color: var(--text);
-    text-align: center;
-  }
-
-  .progress-sub {
-    font-size: 13px;
-    color: var(--text2);
-    text-align: center;
-    margin-top: -16px;
-  }
-
-  .progress-bar-wrap {
-    width: 100%;
-    max-width: 400px;
-    background: var(--bg3);
-    border-radius: 100px;
-    height: 6px;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: var(--gold);
-    border-radius: 100px;
-    transition: width 0.4s ease;
-  }
-
-  .progress-note {
-    font-size: 12px;
-    color: var(--text3);
-    text-align: center;
-  }
-
-  /* ── Player screen ── */
-  .player-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-  }
-
-  .now-playing-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--gold);
-    margin-bottom: 12px;
-    font-weight: 500;
-  }
-
-  .now-playing-title {
-    font-family: 'Lora', serif;
-    font-size: 28px;
-    color: var(--text);
-    text-align: center;
-    margin-bottom: 6px;
-    max-width: 500px;
-  }
-
-  .now-playing-num {
-    font-size: 13px;
-    color: var(--text2);
-    text-align: center;
-    margin-bottom: 48px;
-  }
-
-  /* ── Waveform visualizer ── */
-  .waveform {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    height: 48px;
-    margin-bottom: 40px;
-  }
-
-  .wave-bar {
-    width: 3px;
-    border-radius: 2px;
-    background: var(--gold);
-    opacity: 0.4;
-    transition: height 0.1s;
-  }
-
-  .waveform.playing .wave-bar { animation: wave 0.8s ease-in-out infinite; opacity: 0.9; }
-
-  .wave-bar:nth-child(1)  { animation-delay: 0s;    height: 30%; }
-  .wave-bar:nth-child(2)  { animation-delay: 0.1s;  height: 60%; }
-  .wave-bar:nth-child(3)  { animation-delay: 0.2s;  height: 90%; }
-  .wave-bar:nth-child(4)  { animation-delay: 0.05s; height: 50%; }
-  .wave-bar:nth-child(5)  { animation-delay: 0.15s; height: 75%; }
-  .wave-bar:nth-child(6)  { animation-delay: 0.25s; height: 40%; }
-  .wave-bar:nth-child(7)  { animation-delay: 0.0s;  height: 65%; }
-  .wave-bar:nth-child(8)  { animation-delay: 0.12s; height: 85%; }
-  .wave-bar:nth-child(9)  { animation-delay: 0.22s; height: 55%; }
-  .wave-bar:nth-child(10) { animation-delay: 0.08s; height: 35%; }
-  .wave-bar:nth-child(11) { animation-delay: 0.18s; height: 70%; }
-  .wave-bar:nth-child(12) { animation-delay: 0.28s; height: 45%; }
-
-  @keyframes wave {
-    0%, 100% { transform: scaleY(1); }
-    50%       { transform: scaleY(0.3); }
-  }
-
-  /* ── Seekbar ── */
-  .seekbar-wrap { width: 100%; max-width: 500px; margin-bottom: 12px; }
-
-  .seekbar {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 4px;
-    border-radius: 2px;
-    background: var(--bg3);
-    outline: none;
-    cursor: pointer;
-  }
-
-  .seekbar::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--gold);
-    cursor: pointer;
-    transition: transform 0.1s;
-  }
-
-  .seekbar::-webkit-slider-thumb:hover { transform: scale(1.3); }
-
-  .time-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--text3);
-    font-variant-numeric: tabular-nums;
-    max-width: 500px;
-    width: 100%;
-    margin-bottom: 36px;
-  }
-
-  /* ── Controls ── */
-  .controls {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 36px;
-  }
-
-  .ctrl-btn {
-    background: none;
-    border: none;
-    color: var(--text2);
-    cursor: pointer;
-    font-size: 22px;
-    padding: 8px;
-    border-radius: 50%;
-    transition: color 0.15s, background 0.15s;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ctrl-btn:hover { color: var(--text); background: var(--bg3); }
-  .ctrl-btn.play-pause {
-    width: 60px;
-    height: 60px;
-    background: var(--gold);
-    color: #0f0e0c;
-    font-size: 24px;
-    border-radius: 50%;
-  }
-  .ctrl-btn.play-pause:hover { background: var(--gold2); }
-
-  /* ── Speed + volume ── */
-  .sub-controls {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .sub-ctrl {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    color: var(--text2);
-  }
-
-  .sub-ctrl input[type="range"] {
-    -webkit-appearance: none;
-    width: 80px;
-    height: 3px;
-    border-radius: 2px;
-    background: var(--bg3);
-    outline: none;
-    cursor: pointer;
-  }
-
-  .sub-ctrl input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--text2);
-    cursor: pointer;
-  }
-
-  .speed-btn {
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    color: var(--text);
-    border-radius: var(--radius-sm);
-    padding: 4px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: background 0.15s;
-    min-width: 44px;
-    text-align: center;
-  }
-
-  .speed-btn:hover { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
-
-  /* ── Error ── */
-  .error-box {
-    background: rgba(192,57,43,0.1);
-    border: 1px solid rgba(192,57,43,0.3);
-    border-radius: var(--radius-sm);
-    padding: 16px 20px;
-    color: #e57b6e;
-    font-size: 13px;
-    max-width: 400px;
-    text-align: center;
-  }
-
-  /* ── Converting badge in sidebar ── */
-  .sidebar-progress {
-    padding: 16px 24px;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--text2);
-  }
-
-  .sidebar-progress-bar-wrap {
-    background: var(--bg3);
-    border-radius: 100px;
-    height: 3px;
-    margin-top: 8px;
-    overflow: hidden;
-  }
-
-  .sidebar-progress-bar {
-    height: 100%;
-    background: var(--gold);
-    border-radius: 100px;
-    transition: width 0.5s ease;
-  }
-
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
   .screen { display: none; width: 100%; height: 100%; }
   .screen.active { display: flex; }
 
-  /* ── New book btn ── */
-  .new-book-btn {
-    position: absolute;
-    top: 20px;
-    right: 24px;
-    background: var(--bg3);
-    border: 1px solid var(--border2);
-    color: var(--text2);
-    border-radius: var(--radius-sm);
-    padding: 7px 14px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: color 0.15s, border-color 0.15s;
-  }
+  /* ── Upload screen ── */
+  .upload-screen { flex: 1; flex-direction: column; align-items: center;
+    justify-content: center; padding: 40px; }
+  .upload-box { width: 100%; max-width: 460px; background: var(--bg2);
+    border: 1px solid var(--border2); border-radius: var(--radius); padding: 36px; text-align: center; }
+  .upload-icon { font-size: 44px; margin-bottom: 16px; opacity: 0.6; }
+  .upload-title { font-family: 'Lora', serif; font-size: 20px; margin-bottom: 6px; }
+  .upload-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
 
-  .new-book-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .drop-zone { border: 1.5px dashed var(--border2); border-radius: var(--radius-sm);
+    padding: 28px; margin-bottom: 20px; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--gold); background: var(--gold-dim); }
+  .drop-zone input[type="file"] { display: none; }
+  .drop-label { font-size: 14px; color: var(--text2); margin-bottom: 4px; }
+  .drop-label strong { color: var(--gold); cursor: pointer; }
+  .drop-types { font-size: 12px; color: var(--text3); }
 
+  .settings-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 16px; text-align: left; }
+  .setting-group label { display: block; font-size: 11px; color: var(--text2);
+    margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
+  .setting-group select { width: 100%; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: 13px; padding: 8px 10px; appearance: none; cursor: pointer; outline: none; }
+  .setting-group select:focus { border-color: var(--gold); }
+
+  .btn-primary { width: 100%; background: var(--gold); color: #0f0e0c; border: none;
+    border-radius: var(--radius-sm); padding: 12px; font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--gold2); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Progress screen ── */
+  .progress-screen { flex: 1; flex-direction: column; align-items: center;
+    justify-content: center; padding: 40px; gap: 20px; }
+  .progress-title { font-family: 'Lora', serif; font-size: 20px; text-align: center; }
+  .progress-sub { font-size: 13px; color: var(--text2); text-align: center; }
+  .progress-bar-wrap { width: 100%; max-width: 400px; background: var(--bg3);
+    border-radius: 100px; height: 6px; overflow: hidden; }
+  .progress-bar { height: 100%; background: var(--gold); border-radius: 100px;
+    transition: width 0.4s ease; }
+  .progress-note { font-size: 12px; color: var(--text3); text-align: center; }
+
+  /* ── Resume banner ── */
+  .resume-banner { background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.25);
+    border-radius: var(--radius-sm); padding: 14px 20px; margin-bottom: 20px;
+    text-align: center; max-width: 460px; }
+  .resume-banner p { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .resume-banner strong { color: var(--gold2); display: block; font-size: 15px; margin-bottom: 4px; }
+  .resume-banner .resume-btns { display: flex; gap: 10px; justify-content: center; }
+  .btn-resume { background: var(--gold); color: #0f0e0c; border: none;
+    border-radius: var(--radius-sm); padding: 8px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500; cursor: pointer; transition: background 0.2s; }
+  .btn-resume:hover { background: var(--gold2); }
+  .btn-new { background: var(--bg3); color: var(--text2); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); padding: 8px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; cursor: pointer; transition: background 0.15s; }
+  .btn-new:hover { background: var(--bg4); color: var(--text); }
+
+  /* ── Player screen ── */
+  .player-screen { flex: 1; flex-direction: column; align-items: center;
+    justify-content: center; padding: 40px; }
+  .now-playing-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--gold); margin-bottom: 10px; font-weight: 500; }
+  .now-playing-title { font-family: 'Lora', serif; font-size: 26px; text-align: center;
+    margin-bottom: 4px; max-width: 500px; }
+  .now-playing-num { font-size: 13px; color: var(--text2); text-align: center; margin-bottom: 40px; }
+
+  .waveform { display: flex; align-items: center; gap: 3px; height: 44px; margin-bottom: 36px; }
+  .wave-bar { width: 3px; border-radius: 2px; background: var(--gold); opacity: 0.35; }
+  .waveform.playing .wave-bar { animation: wave 0.8s ease-in-out infinite; opacity: 0.9; }
+  .wave-bar:nth-child(1){height:30%;animation-delay:0s}
+  .wave-bar:nth-child(2){height:60%;animation-delay:.1s}
+  .wave-bar:nth-child(3){height:90%;animation-delay:.2s}
+  .wave-bar:nth-child(4){height:50%;animation-delay:.05s}
+  .wave-bar:nth-child(5){height:75%;animation-delay:.15s}
+  .wave-bar:nth-child(6){height:40%;animation-delay:.25s}
+  .wave-bar:nth-child(7){height:65%;animation-delay:0s}
+  .wave-bar:nth-child(8){height:85%;animation-delay:.12s}
+  .wave-bar:nth-child(9){height:55%;animation-delay:.22s}
+  .wave-bar:nth-child(10){height:35%;animation-delay:.08s}
+  .wave-bar:nth-child(11){height:70%;animation-delay:.18s}
+  .wave-bar:nth-child(12){height:45%;animation-delay:.28s}
+  @keyframes wave { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(0.3)} }
+
+  .seekbar-wrap { width: 100%; max-width: 500px; margin-bottom: 10px; }
+  .seekbar { -webkit-appearance: none; width: 100%; height: 4px; border-radius: 2px;
+    background: var(--bg3); outline: none; cursor: pointer; }
+  .seekbar::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--gold); cursor: pointer; transition: transform 0.1s; }
+  .seekbar::-webkit-slider-thumb:hover { transform: scale(1.3); }
+  .time-row { display: flex; justify-content: space-between; font-size: 12px;
+    color: var(--text3); font-variant-numeric: tabular-nums;
+    max-width: 500px; width: 100%; margin-bottom: 32px; }
+
+  .controls { display: flex; align-items: center; gap: 20px; margin-bottom: 32px; }
+  .ctrl-btn { background: none; border: none; color: var(--text2); cursor: pointer;
+    font-size: 20px; padding: 8px; border-radius: 50%; transition: color 0.15s, background 0.15s;
+    line-height: 1; display: flex; align-items: center; justify-content: center; }
+  .ctrl-btn:hover { color: var(--text); background: var(--bg3); }
+  .ctrl-btn.play-pause { width: 58px; height: 58px; background: var(--gold);
+    color: #0f0e0c; font-size: 22px; border-radius: 50%; }
+  .ctrl-btn.play-pause:hover { background: var(--gold2); }
+
+  .sub-controls { display: flex; align-items: center; gap: 20px; }
+  .sub-ctrl { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text2); }
+  .sub-ctrl input[type="range"] { -webkit-appearance: none; width: 80px; height: 3px;
+    border-radius: 2px; background: var(--bg3); outline: none; cursor: pointer; }
+  .sub-ctrl input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none;
+    width: 11px; height: 11px; border-radius: 50%; background: var(--text2); cursor: pointer; }
+  .speed-btn { background: var(--bg3); border: 1px solid var(--border2); color: var(--text);
+    border-radius: var(--radius-sm); padding: 4px 10px; font-size: 12px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; min-width: 40px; text-align: center; }
+  .speed-btn:hover { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+  .corner-btn { position: absolute; top: 18px; right: 20px; background: var(--bg3);
+    border: 1px solid var(--border2); color: var(--text2); border-radius: var(--radius-sm);
+    padding: 6px 12px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    transition: color 0.15s, border-color 0.15s; }
+  .corner-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+  .error-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3);
+    border-radius: var(--radius-sm); padding: 16px 20px; color: #e57b6e;
+    font-size: 13px; max-width: 400px; text-align: center; }
   .hidden { display: none !important; }
+
+  #file-chosen { margin-top: 10px; font-size: 13px; color: var(--gold); display: none; }
 </style>
 </head>
 <body>
-
 <div class="app">
 
   <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <div class="sidebar-header">
-      <div class="logo">
-        📖 Audiobook
-        <span id="book-filename">Upload a book to begin</span>
+      <div class="logo">📖 Audiobook
+        <span id="book-filename">No book loaded</span>
       </div>
     </div>
+
+    <div class="sidebar-tabs">
+      <div class="tab active" id="tab-chapters" onclick="switchTab('chapters')">Chapters</div>
+      <div class="tab" id="tab-library" onclick="switchTab('library')">Library</div>
+    </div>
+
     <div class="chapter-list" id="chapter-list">
-      <div style="padding: 32px 24px; color: var(--text3); font-size: 13px; text-align: center;">
-        Chapters will appear here after upload
+      <div style="padding:28px 20px;color:var(--text3);font-size:13px;text-align:center;">
+        Upload a book to begin
       </div>
     </div>
-    <div class="sidebar-progress hidden" id="sidebar-progress">
-      <span id="sidebar-progress-text">Converting...</span>
+
+    <div class="book-library" id="book-library">
+      <div style="padding:28px 20px;color:var(--text3);font-size:13px;text-align:center;">
+        Loading library...
+      </div>
+    </div>
+
+    <div class="sidebar-bottom hidden" id="sidebar-progress">
+      <div class="sidebar-bottom-text" id="sidebar-progress-text">Converting...</div>
       <div class="sidebar-progress-bar-wrap">
-        <div class="sidebar-progress-bar" id="sidebar-progress-bar" style="width: 0%"></div>
+        <div class="sidebar-progress-bar" id="sidebar-progress-bar" style="width:0%"></div>
       </div>
     </div>
   </div>
@@ -588,18 +260,25 @@
 
     <!-- Upload screen -->
     <div class="screen active upload-screen" id="screen-upload">
-      <div class="upload-box">
+      <div id="resume-banner" class="resume-banner hidden">
+        <strong id="resume-book-name"></strong>
+        <p id="resume-book-detail"></p>
+        <div class="resume-btns">
+          <button class="btn-resume" onclick="resumeLastBook()">Resume Listening</button>
+          <button class="btn-new" onclick="dismissResume()">Upload New Book</button>
+        </div>
+      </div>
+
+      <div class="upload-box" id="upload-box">
         <div class="upload-icon">📚</div>
         <div class="upload-title">Book to Audiobook</div>
-        <div class="upload-sub">Upload your PDF, EPUB, or TXT book and listen chapter by chapter</div>
+        <div class="upload-sub">Upload a PDF, EPUB, or TXT book — chapters converted automatically</div>
 
         <div class="drop-zone" id="drop-zone">
           <input type="file" id="file-input" accept=".pdf,.epub,.txt" />
-          <div class="drop-label">
-            <strong id="drop-label-link">Choose a file</strong> or drag it here
-          </div>
+          <div class="drop-label"><strong id="drop-label-link">Choose a file</strong> or drag it here</div>
           <div class="drop-types">PDF · EPUB · TXT</div>
-          <div id="file-chosen" style="margin-top: 10px; font-size: 13px; color: var(--gold); display: none;"></div>
+          <div id="file-chosen"></div>
         </div>
 
         <div class="settings-row">
@@ -625,9 +304,7 @@
           </div>
         </div>
 
-        <button class="btn-convert" id="btn-convert" disabled>
-          Convert Book to Audio
-        </button>
+        <button class="btn-primary" id="btn-convert" disabled>Convert Book to Audio</button>
       </div>
     </div>
 
@@ -636,23 +313,20 @@
       <div class="progress-title">Converting your book...</div>
       <div class="progress-sub" id="progress-sub">Extracting chapters</div>
       <div class="progress-bar-wrap">
-        <div class="progress-bar" id="main-progress-bar" style="width: 0%"></div>
+        <div class="progress-bar" id="main-progress-bar" style="width:0%"></div>
       </div>
-      <div class="progress-note" id="progress-note">
-        Chapters ready will appear in the sidebar — you can start listening while others convert
-      </div>
+      <div class="progress-note">Chapters ready will appear in the sidebar — start listening straight away</div>
     </div>
 
     <!-- Error screen -->
     <div class="screen progress-screen" id="screen-error">
       <div class="error-box" id="error-msg">Something went wrong.</div>
-      <button class="btn-convert" style="max-width: 200px; margin-top: 20px;" onclick="resetApp()">Try Again</button>
+      <button class="btn-primary" style="max-width:200px;margin-top:20px" onclick="goHome()">Try Again</button>
     </div>
 
     <!-- Player screen -->
     <div class="screen player-screen" id="screen-player">
-      <button class="new-book-btn" onclick="resetApp()">+ New Book</button>
-
+      <button class="corner-btn" onclick="goHome()">+ New Book</button>
       <div class="now-playing-label">Now Playing</div>
       <div class="now-playing-title" id="player-title">Chapter Title</div>
       <div class="now-playing-num" id="player-num">Chapter 1</div>
@@ -675,27 +349,21 @@
       </div>
 
       <div class="controls">
-        <button class="ctrl-btn" id="btn-prev" title="Previous chapter" onclick="prevChapter()">⏮</button>
-        <button class="ctrl-btn" id="btn-rw" title="Rewind 15s" onclick="seek(-15)">⏪</button>
+        <button class="ctrl-btn" onclick="prevChapter()" title="Previous chapter">⏮</button>
+        <button class="ctrl-btn" onclick="seek(-15)" title="Rewind 15s">⏪</button>
         <button class="ctrl-btn play-pause" id="btn-play" onclick="togglePlay()">▶</button>
-        <button class="ctrl-btn" id="btn-ff" title="Forward 30s" onclick="seek(30)">⏩</button>
-        <button class="ctrl-btn" id="btn-next" title="Next chapter" onclick="nextChapter()">⏭</button>
+        <button class="ctrl-btn" onclick="seek(30)" title="Forward 30s">⏩</button>
+        <button class="ctrl-btn" onclick="nextChapter()" title="Next chapter">⏭</button>
       </div>
 
       <div class="sub-controls">
-        <div class="sub-ctrl">
-          🔊
-          <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1" />
-        </div>
-        <div class="sub-ctrl">
-          Speed:
-          <button class="speed-btn" onclick="cycleSpeed()">1×</button>
-        </div>
+        <div class="sub-ctrl">🔊<input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1" /></div>
+        <div class="sub-ctrl">Speed: <button class="speed-btn" id="speed-btn" onclick="cycleSpeed()">1×</button></div>
       </div>
     </div>
 
-  </div><!-- /main -->
-</div><!-- /app -->
+  </div>
+</div>
 
 <audio id="audio-el" preload="auto"></audio>
 
@@ -708,61 +376,139 @@ const timeCur   = document.getElementById('time-current');
 const timeTotal = document.getElementById('time-total');
 const volSlider = document.getElementById('volume-slider');
 
-let jobId       = null;
-let chapters    = [];
-let currentIdx  = -1;
-let pollTimer   = null;
-let speeds      = [0.75, 1, 1.25, 1.5, 1.75, 2];
-let speedIdx    = 1;
+let jobId      = null;
+let chapters   = [];
+let currentIdx = -1;
+let pollTimer  = null;
+let saveTimer  = null;
+let speeds     = [0.75, 1, 1.25, 1.5, 1.75, 2];
+let speedIdx   = 1;
 
-// ── Screens ──────────────────────────────────────────────────────────────────
-
+// ── Screens ───────────────────────────────────────────────────────────────────
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
 }
 
-function resetApp() {
+function goHome() {
   clearInterval(pollTimer);
-  jobId = null;
-  chapters = [];
-  currentIdx = -1;
   audio.pause();
   audio.src = '';
-  document.getElementById('chapter-list').innerHTML =
-    '<div style="padding:32px 24px;color:var(--text3);font-size:13px;text-align:center;">Chapters will appear here after upload</div>';
-  document.getElementById('book-filename').textContent = 'Upload a book to begin';
-  document.getElementById('sidebar-progress').classList.add('hidden');
-  document.getElementById('file-chosen').style.display = 'none';
-  document.getElementById('file-chosen').textContent = '';
-  document.getElementById('btn-convert').disabled = true;
-  document.getElementById('file-input').value = '';
   showScreen('upload');
+  loadLibrary();
+  checkResume();
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tab-chapters').classList.toggle('active', tab === 'chapters');
+  document.getElementById('tab-library').classList.toggle('active', tab === 'library');
+  document.getElementById('chapter-list').style.display  = tab === 'chapters' ? 'block' : 'none';
+  document.getElementById('book-library').style.display  = tab === 'library'  ? 'block' : 'none';
+  if (tab === 'library') loadLibrary();
+}
+
+// ── Library ───────────────────────────────────────────────────────────────────
+async function loadLibrary() {
+  const el = document.getElementById('book-library');
+  try {
+    const res   = await fetch('/books');
+    const books = await res.json();
+    if (!books.length) {
+      el.innerHTML = '<div style="padding:28px 20px;color:var(--text3);font-size:13px;text-align:center;">No books yet</div>';
+      return;
+    }
+    el.innerHTML = '';
+    books.forEach(book => {
+      const div   = document.createElement('div');
+      div.className = 'book-item' + (book.job_id === jobId ? ' current' : '');
+      const done  = (book.chapters || []).filter(c => c.done).length;
+      const total = book.total || 0;
+      const pct   = total ? Math.round((done / total) * 100) : 0;
+      const badgeCls = book.status === 'done' ? 'badge-done' :
+                       book.status === 'error' ? 'badge-error' : 'badge-converting';
+      const badgeTxt = book.status === 'done' ? 'Complete' :
+                       book.status === 'error' ? 'Error' : `${pct}% ready`;
+      div.innerHTML = `
+        <div class="book-name">${book.filename}</div>
+        <div class="book-meta">${done} of ${total} chapters</div>
+        <span class="book-status-badge ${badgeCls}">${badgeTxt}</span>`;
+      if (done > 0) {
+        div.addEventListener('click', () => openBook(book));
+      }
+      el.appendChild(div);
+    });
+  } catch(e) {
+    el.innerHTML = '<div style="padding:28px 20px;color:var(--text3);font-size:13px;text-align:center;">Could not load library</div>';
+  }
+}
+
+function openBook(book) {
+  clearInterval(pollTimer);
+  jobId      = book.job_id;
+  chapters   = book.chapters || [];
+  currentIdx = -1;
+  document.getElementById('book-filename').textContent = book.filename;
+  updateSidebar(chapters);
+  switchTab('chapters');
+
+  // Jump to last position if available
+  const pos = book.last_position;
+  if (pos && pos.chapter_idx >= 0 && chapters[pos.chapter_idx]?.done) {
+    showScreen('player');
+    playChapter(pos.chapter_idx, pos.time || 0);
+  } else {
+    const first = chapters.findIndex(c => c.done);
+    if (first !== -1) { showScreen('player'); playChapter(first); }
+  }
+
+  if (book.status !== 'done') startPolling();
+}
+
+// ── Resume banner ─────────────────────────────────────────────────────────────
+async function checkResume() {
+  try {
+    const res   = await fetch('/books');
+    const books = await res.json();
+    const recent = books.find(b => (b.chapters || []).some(c => c.done));
+    if (!recent) return;
+
+    const pos = recent.last_position;
+    const chName = pos && recent.chapters?.[pos.chapter_idx]
+      ? recent.chapters[pos.chapter_idx].title : '';
+
+    document.getElementById('resume-book-name').textContent = recent.filename;
+    document.getElementById('resume-book-detail').textContent =
+      chName ? `Last listened: ${chName}` : `${(recent.chapters||[]).filter(c=>c.done).length} chapters ready`;
+
+    document.getElementById('resume-banner').classList.remove('hidden');
+    document.getElementById('resume-banner')._book = recent;
+  } catch(e) {}
+}
+
+function resumeLastBook() {
+  const book = document.getElementById('resume-banner')._book;
+  if (book) openBook(book);
+}
+
+function dismissResume() {
+  document.getElementById('resume-banner').classList.add('hidden');
 }
 
 // ── File input ────────────────────────────────────────────────────────────────
-
 const dropZone  = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 
 document.getElementById('drop-label-link').addEventListener('click', () => fileInput.click());
-
-fileInput.addEventListener('change', () => {
-  if (fileInput.files[0]) onFileSelected(fileInput.files[0]);
-});
-
-dropZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  dropZone.classList.add('drag-over');
-});
+fileInput.addEventListener('change', () => { if (fileInput.files[0]) onFile(fileInput.files[0]); });
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
 dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('drag-over');
-  if (e.dataTransfer.files[0]) onFileSelected(e.dataTransfer.files[0]);
+  e.preventDefault(); dropZone.classList.remove('drag-over');
+  if (e.dataTransfer.files[0]) onFile(e.dataTransfer.files[0]);
 });
 
-function onFileSelected(file) {
+function onFile(file) {
   const el = document.getElementById('file-chosen');
   el.textContent = '✓ ' + file.name;
   el.style.display = 'block';
@@ -770,15 +516,13 @@ function onFileSelected(file) {
   dropZone._file = file;
 }
 
-// ── Upload + start ────────────────────────────────────────────────────────────
-
+// ── Upload ────────────────────────────────────────────────────────────────────
 document.getElementById('btn-convert').addEventListener('click', async () => {
-  const file  = dropZone._file;
+  const file = dropZone._file;
   if (!file) return;
   const voice = document.getElementById('voice-select').value;
   const rate  = document.getElementById('rate-select').value;
-
-  const form = new FormData();
+  const form  = new FormData();
   form.append('file', file);
   form.append('voice', voice);
   form.append('rate', rate);
@@ -791,10 +535,12 @@ document.getElementById('btn-convert').addEventListener('click', async () => {
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     jobId = data.job_id;
+    chapters   = [];
+    currentIdx = -1;
     document.getElementById('book-filename').textContent = file.name;
     showScreen('progress');
     startPolling();
-  } catch (e) {
+  } catch(e) {
     document.getElementById('error-msg').textContent = e.message;
     showScreen('error');
     document.getElementById('btn-convert').disabled = false;
@@ -803,9 +549,9 @@ document.getElementById('btn-convert').addEventListener('click', async () => {
 });
 
 // ── Polling ───────────────────────────────────────────────────────────────────
-
 function startPolling() {
-  pollTimer = setInterval(poll, 2000);
+  clearInterval(pollTimer);
+  pollTimer = setInterval(poll, 2500);
   poll();
 }
 
@@ -814,113 +560,95 @@ async function poll() {
   try {
     const res  = await fetch('/status/' + jobId);
     const data = await res.json();
-
+    if (data.error && data.error !== 'Job not found') {
+      // ignore transient
+    }
     if (data.status === 'error') {
       clearInterval(pollTimer);
       document.getElementById('error-msg').textContent = data.error || 'Conversion failed.';
       showScreen('error');
       return;
     }
-
-    updateSidebar(data.chapters);
-    updateProgress(data);
-
-    // Switch to player as soon as first chapter is done
-    if (data.chapters && data.chapters.some(c => c.done) && currentIdx === -1) {
-      const firstDone = data.chapters.findIndex(c => c.done);
-      showScreen('player');
-      playChapter(firstDone);
+    if (data.chapters) {
+      chapters = data.chapters;
+      updateSidebar(chapters);
+      updateProgress(data);
+      if (currentIdx === -1 && chapters.some(c => c.done)) {
+        const first = chapters.findIndex(c => c.done);
+        showScreen('player');
+        playChapter(first);
+      }
     }
-
     if (data.status === 'done') {
       clearInterval(pollTimer);
       document.getElementById('sidebar-progress').classList.add('hidden');
     }
-
-  } catch (e) {
-    console.error('Poll error', e);
-  }
+  } catch(e) { /* network blip, ignore */ }
 }
 
 function updateProgress(data) {
-  const total    = data.total || 1;
-  const done     = (data.chapters || []).filter(c => c.done).length;
-  const pct      = Math.round((done / total) * 100);
-
-  document.getElementById('main-progress-bar').style.width = pct + '%';
+  const total  = data.total || 1;
+  const done   = (data.chapters || []).filter(c => c.done).length;
+  const pct    = Math.round((done / total) * 100);
+  document.getElementById('main-progress-bar').style.width   = pct + '%';
   document.getElementById('sidebar-progress-bar').style.width = pct + '%';
-
-  if (data.status === 'extracting') {
-    document.getElementById('progress-sub').textContent = 'Detecting chapters...';
-  } else {
-    document.getElementById('progress-sub').textContent =
-      `Converting chapter ${done} of ${total}`;
-    document.getElementById('sidebar-progress').classList.remove('hidden');
-    document.getElementById('sidebar-progress-text').textContent =
-      `${done} / ${total} chapters ready`;
-  }
+  document.getElementById('sidebar-progress').classList.remove('hidden');
+  const detail = data.chunk_progress ? ` — ${data.chunk_progress}` : '';
+  document.getElementById('progress-sub').textContent =
+    data.status === 'extracting' ? 'Detecting chapters...' :
+    `Chapter ${done + 1} of ${total}${detail}`;
+  document.getElementById('sidebar-progress-text').textContent = `${done} / ${total} chapters ready`;
 }
 
 function updateSidebar(chs) {
   if (!chs || !chs.length) return;
-  chapters = chs;
   const list = document.getElementById('chapter-list');
   list.innerHTML = '';
   chs.forEach((ch, idx) => {
     const item = document.createElement('div');
     item.className = 'chapter-item' + (idx === currentIdx ? ' active' : '');
-    item.dataset.idx = idx;
-
-    const statusIcon = ch.done
+    const icon = ch.done
       ? '<span class="ch-status done">♪</span>'
       : (idx === chs.findIndex(c => !c.done)
         ? '<span class="ch-status converting">⟳</span>'
         : '<span class="ch-status pending">·</span>');
-
     const mins = ch.words ? Math.round(ch.words / 150) : '?';
-
     item.innerHTML = `
       <span class="ch-num">${String(ch.number).padStart(2,'0')}</span>
       <div class="ch-info">
         <div class="ch-title">${ch.title}</div>
         <div class="ch-meta">~${mins} min</div>
-      </div>
-      ${statusIcon}
-    `;
-
-    if (ch.done) {
-      item.addEventListener('click', () => {
-        showScreen('player');
-        playChapter(idx);
-      });
-    }
-
+      </div>${icon}`;
+    if (ch.done) item.addEventListener('click', () => { showScreen('player'); playChapter(idx); });
     list.appendChild(item);
   });
 }
 
 // ── Player ────────────────────────────────────────────────────────────────────
-
-function playChapter(idx) {
+function playChapter(idx, startTime = 0) {
   if (!chapters[idx] || !chapters[idx].done) return;
   currentIdx = idx;
-  const ch = chapters[idx];
+  const ch   = chapters[idx];
   document.getElementById('player-title').textContent = ch.title;
   document.getElementById('player-num').textContent   = `Chapter ${ch.number}`;
   audio.src = `/audio/${jobId}/${ch.file}`;
   audio.playbackRate = speeds[speedIdx];
-  audio.play();
+  audio.addEventListener('loadedmetadata', function onLoaded() {
+    audio.removeEventListener('loadedmetadata', onLoaded);
+    if (startTime > 0) audio.currentTime = startTime;
+    audio.play();
+  }, { once: true });
   refreshSidebarActive();
+  scheduleSavePosition();
 }
 
 function refreshSidebarActive() {
-  document.querySelectorAll('.chapter-item').forEach((el, i) => {
-    el.classList.toggle('active', i === currentIdx);
-  });
+  document.querySelectorAll('.chapter-item').forEach((el, i) =>
+    el.classList.toggle('active', i === currentIdx));
 }
 
 function togglePlay() {
-  if (audio.paused) { audio.play(); } else { audio.pause(); }
+  audio.paused ? audio.play() : audio.pause();
 }
 
 function seek(secs) {
@@ -928,59 +656,69 @@ function seek(secs) {
 }
 
 function prevChapter() {
-  if (currentIdx > 0) {
-    const prev = [...chapters].slice(0, currentIdx).map((c, i) => ({c, i})).reverse().find(x => x.c.done);
-    if (prev) playChapter(prev.i);
+  for (let i = currentIdx - 1; i >= 0; i--) {
+    if (chapters[i]?.done) { playChapter(i); return; }
   }
 }
 
 function nextChapter() {
-  const next = chapters.slice(currentIdx + 1).findIndex(c => c.done);
-  if (next !== -1) playChapter(currentIdx + 1 + next);
+  for (let i = currentIdx + 1; i < chapters.length; i++) {
+    if (chapters[i]?.done) { playChapter(i); return; }
+  }
 }
 
 function cycleSpeed() {
   speedIdx = (speedIdx + 1) % speeds.length;
-  const s = speeds[speedIdx];
-  audio.playbackRate = s;
-  document.querySelector('.speed-btn').textContent = s + '×';
+  audio.playbackRate = speeds[speedIdx];
+  document.getElementById('speed-btn').textContent = speeds[speedIdx] + '×';
 }
 
 function fmtTime(s) {
   if (!s || isNaN(s)) return '0:00';
   const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60);
-  return m + ':' + String(sec).padStart(2, '0');
+  return m + ':' + String(Math.floor(s % 60)).padStart(2, '0');
 }
 
-audio.addEventListener('play',  () => {
-  btnPlay.textContent = '⏸';
-  waveform.classList.add('playing');
-});
-audio.addEventListener('pause', () => {
-  btnPlay.textContent = '▶';
-  waveform.classList.remove('playing');
-});
-audio.addEventListener('ended', () => {
-  btnPlay.textContent = '▶';
-  waveform.classList.remove('playing');
-  nextChapter();
-});
+// ── Save position ─────────────────────────────────────────────────────────────
+function scheduleSavePosition() {
+  clearInterval(saveTimer);
+  saveTimer = setInterval(savePosition, 5000);
+}
+
+async function savePosition() {
+  if (!jobId || currentIdx < 0) return;
+  try {
+    await fetch(`/position/${jobId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chapter_idx: currentIdx, time: Math.floor(audio.currentTime) })
+    });
+  } catch(e) {}
+}
+
+// ── Audio events ──────────────────────────────────────────────────────────────
+audio.addEventListener('play',  () => { btnPlay.textContent = '⏸'; waveform.classList.add('playing'); });
+audio.addEventListener('pause', () => { btnPlay.textContent = '▶'; waveform.classList.remove('playing'); });
+audio.addEventListener('ended', () => { btnPlay.textContent = '▶'; waveform.classList.remove('playing'); nextChapter(); });
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
-  const pct = (audio.currentTime / audio.duration) * 100;
-  seekbar.value   = pct;
+  seekbar.value = (audio.currentTime / audio.duration) * 100;
   timeCur.textContent  = fmtTime(audio.currentTime);
   timeTotal.textContent = fmtTime(audio.duration);
 });
-
 seekbar.addEventListener('input', () => {
   if (audio.duration) audio.currentTime = (seekbar.value / 100) * audio.duration;
 });
+volSlider.addEventListener('input', () => { audio.volume = volSlider.value; });
 
-volSlider.addEventListener('input', () => {
-  audio.volume = volSlider.value;
-});
+// ── Init ──────────────────────────────────────────────────────────────────────
+(async function init() {
+  // Default chapter-list panel visible
+  document.getElementById('chapter-list').style.display = 'block';
+  document.getElementById('book-library').style.display = 'none';
+  await checkResume();
+  loadLibrary();
+})();
 </script>
 </body>
 </html>
